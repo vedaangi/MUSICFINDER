@@ -1,13 +1,5 @@
 # MUSICFINDER
-
-College DBW project - Music discovery and playlist web app.
-Built using PHP, MySQL, HTML, CSS, and JavaScript on XAMPP.
-
-## Team Members
-- Member 1: User Login & Registration
-- Member 2: Music Catalog & Search
-- Member 3: Playlist Management & Recommendations
-- Member 4: Music Player
+vedaangi's part
 
 ## Setup Instructions
 
