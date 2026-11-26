@@ -16,8 +16,7 @@ if ($song_id <= 0) {
     exit;
 }
 
-// verify song exists in songs table
-$check_song = $conn->prepare("SELECT id FROM songs WHERE id = ?");
+$check_song = $conn->prepare("SELECT song_id FROM songs WHERE song_id = ?");
 $check_song->bind_param("i", $song_id);
 $check_song->execute();
 $check_song->store_result();

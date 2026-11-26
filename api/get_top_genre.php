@@ -1,21 +1,23 @@
 <?php
 header('Content-Type: application/json');
+
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/session_helper.php';
 
 $user_id = getCurrentUserId();
 
-// calculate top genre using GROUP BY and COUNT
-$sql = "SELECT s.genre, COUNT(lh.id) AS play_count
+$sql = "SELECT g.genre_name, COUNT(lh.id) AS play_count
         FROM listening_history lh
-        JOIN songs s ON lh.song_id = s.id
+        JOIN songs s ON lh.song_id = s.song_id
+        JOIN genres g ON s.genre_id = g.genre_id
         WHERE lh.user_id = ?
-        GROUP BY s.genre
+        GROUP BY g.genre_id, g.genre_name
         ORDER BY play_count DESC";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
+
 $result = $stmt->get_result();
 
 $genres = [];
@@ -24,7 +26,7 @@ $top_count = 0;
 
 while ($row = $result->fetch_assoc()) {
     $genres[] = [
-        'genre' => $row['genre'],
+        'genre' => $row['genre_name'],
         'play_count' => (int)$row['play_count']
     ];
 }

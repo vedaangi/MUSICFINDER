@@ -1,3 +1,0 @@
-<?php
-require_once __DIR__ . '/api/add_to_playlist.php';
-?>

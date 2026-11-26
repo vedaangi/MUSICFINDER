@@ -1,0 +1,111 @@
+CREATE DATABASE IF NOT EXISTS playlist;
+USE playlist;
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS user_activity;
+DROP TABLE IF EXISTS user_preferences;
+DROP TABLE IF EXISTS user_subscriptions;
+DROP TABLE IF EXISTS playlist_songs;
+DROP TABLE IF EXISTS playlists;
+DROP TABLE IF EXISTS listening_history;
+DROP TABLE IF EXISTS songs;
+DROP TABLE IF EXISTS artists;
+DROP TABLE IF EXISTS genres;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE artists (
+    artist_id INT AUTO_INCREMENT PRIMARY KEY,
+    artist_name VARCHAR(150) NOT NULL UNIQUE
+);
+
+CREATE TABLE genres (
+    genre_id INT AUTO_INCREMENT PRIMARY KEY,
+    genre_name VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE songs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    song_id INT DEFAULT NULL,
+    track_id VARCHAR(100) DEFAULT NULL,
+    song_name VARCHAR(150) DEFAULT NULL,
+    title VARCHAR(150) DEFAULT NULL,
+    artist_id INT DEFAULT NULL,
+    artist VARCHAR(100) DEFAULT NULL,
+    genre_id INT DEFAULT NULL,
+    genre VARCHAR(50) DEFAULT NULL,
+    album_name VARCHAR(150) DEFAULT NULL,
+    album_art VARCHAR(255) DEFAULT NULL,
+    preview_url VARCHAR(255) DEFAULT NULL,
+    duration_ms INT DEFAULT 0,
+    youtube_url VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (artist_id) REFERENCES artists(artist_id) ON DELETE SET NULL,
+    FOREIGN KEY (genre_id) REFERENCES genres(genre_id) ON DELETE SET NULL
+);
+
+CREATE TABLE user_activity (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    activity_type VARCHAR(50) NOT NULL,
+    description TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE user_preferences (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    genre_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (genre_id) REFERENCES genres(genre_id) ON DELETE CASCADE
+);
+
+CREATE TABLE playlists (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE playlist_songs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    playlist_id INT NOT NULL,
+    song_id INT NOT NULL,
+    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (playlist_id) REFERENCES playlists(id) ON DELETE CASCADE,
+    FOREIGN KEY (song_id) REFERENCES songs(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_playlist_song (playlist_id, song_id)
+);
+
+CREATE TABLE listening_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    song_id INT NOT NULL,
+    listened_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (song_id) REFERENCES songs(id) ON DELETE CASCADE
+);
+
+CREATE TABLE user_subscriptions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    plan VARCHAR(50) DEFAULT 'free',
+    status VARCHAR(50) DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+SET FOREIGN_KEY_CHECKS = 1;
