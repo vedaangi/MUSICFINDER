@@ -2,3 +2,12 @@
 /config/db.php
 /test_db.php
 .DS_Store
+/config/db.php
+/test_db.php
+.DS_Store
+.vscode/
+.idea/
+*.log
+Thumbs.db
+desktop.ini
+*.tmp
