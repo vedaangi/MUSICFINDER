@@ -7,8 +7,8 @@ function fetchUserTopGenre(mysqli $conn, int $user_id): ?array
         $stmt = $conn->prepare(
             "SELECT g.genre_id, g.genre_name, COUNT(lh.id) AS play_count
              FROM listening_history lh
-             INNER JOIN songs s ON lh.song_id = s.song_id
-             INNER JOIN genres g ON s.genre_id = g.genre_id
+             INNER JOIN songs s ON (lh.song_id = s.song_id OR lh.song_id = s.id)
+             INNER JOIN genres g ON (s.genre_id = g.genre_id OR s.genre = g.genre_name)
              WHERE lh.user_id = ?
              GROUP BY g.genre_id, g.genre_name
              ORDER BY play_count DESC, g.genre_name ASC

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="movieBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2C263F"/>
+      <stop offset="60%" stop-color="#1A1626"/>
+      <stop offset="100%" stop-color="#213722"/>
+    </linearGradient>
+    <linearGradient id="clapperGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#213722"/>
+      <stop offset="100%" stop-color="#2C263F"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="800" fill="url(#movieBgGrad)"/>
+
+  <!-- Editorial Borders -->
+  <rect x="25" y="25" width="550" height="750" rx="18" fill="none" stroke="#C0B6DE" stroke-opacity="0.2" stroke-width="2"/>
+  <rect x="35" y="35" width="530" height="730" rx="12" fill="none" stroke="#A3C9A7" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="8,6"/>
+
+  <!-- Film Reel / Clapper Graphic -->
+  <g transform="translate(300, 360)">
+    <!-- Clapperboard Base -->
+    <rect x="-120" y="-80" width="240" height="180" rx="10" fill="#201B2E" stroke="#C0B6DE" stroke-opacity="0.3" stroke-width="2"/>
+    
+    <!-- Diagonal Stripes Header -->
+    <rect x="-120" y="-120" width="240" height="35" rx="6" fill="#192B1A" stroke="#A3C9A7" stroke-opacity="0.4" stroke-width="2"/>
+    <path d="M-90,-120 L-70,-85 M-40,-120 L-20,-85 M10,-120 L30,-85 M60,-120 L80,-85" stroke="#D3E7D5" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- Film Reel Center Circle -->
+    <circle cx="0" cy="15" r="45" fill="#213722" stroke="#A3C9A7" stroke-width="2"/>
+    <circle cx="0" cy="15" r="30" fill="#2C263F" stroke="#C0B6DE" stroke-opacity="0.4" stroke-width="1.5"/>
+    <circle cx="0" cy="15" r="8" fill="#100E17"/>
+
+    <!-- Film Sprocket Dots -->
+    <circle cx="-20" cy="15" r="4" fill="#D3E7D5"/>
+    <circle cx="20" cy="15" r="4" fill="#D3E7D5"/>
+    <circle cx="0" cy="-5" r="4" fill="#D3E7D5"/>
+    <circle cx="0" cy="35" r="4" fill="#D3E7D5"/>
+  </g>
+
+  <!-- Typography -->
+  <text x="300" y="560" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-size="28" font-weight="700" fill="#F5F3FA" letter-spacing="1.5">
+    WEEKLY CINEMA
+  </text>
+  
+  <text x="300" y="595" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="14" font-weight="600" fill="#C0B6DE" letter-spacing="1">
+    VARP SOUNDTRACK CURATION
+  </text>
+
+  <rect x="180" y="630" width="240" height="32" rx="16" fill="#213722" fill-opacity="0.9" stroke="#A3C9A7" stroke-opacity="0.5" stroke-width="1"/>
+  <text x="300" y="651" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="12" font-weight="700" fill="#EFF6F0" letter-spacing="0.5">
+    Movie Poster Unavailable
+  </text>
+</svg>

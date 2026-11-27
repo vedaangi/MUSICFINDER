@@ -1,5 +1,11 @@
 <?php
-require_once 'config/db.php';
+require_once __DIR__ . '/includes/session_helper.php';
+require_once __DIR__ . '/config/db.php';
+
+if (isLoggedIn()) {
+    header("Location: dashboard.php");
+    exit;
+}
 
 $message = "";
 $message_type = "";
@@ -26,13 +32,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $message = "Password must contain at least 6 characters.";
         $message_type = "error";
     } else {
-        $check = $conn->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
+        $check = $conn->prepare("SELECT id FROM users WHERE username = ? OR email = ? LIMIT 1");
         $check->bind_param("ss", $username, $email);
         $check->execute();
         $result = $check->get_result();
 
         if ($result->num_rows > 0) {
-            $message = "Username or email already exists.";
+            $message = "Username or email is already taken. Please choose another.";
             $message_type = "error";
         } else {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -40,18 +46,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $conn->begin_transaction();
 
             try {
-                $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+                $stmt = $conn->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, 'user')");
                 $stmt->bind_param("sss", $username, $email, $hashed_password);
                 $stmt->execute();
 
                 $user_id = $conn->insert_id;
 
-                $activity = @$conn->prepare("INSERT INTO user_activity (user_id, activity_type, description) VALUES (?, 'Registration', 'Account created successfully')");
-                if ($activity) {
-                    $activity->bind_param("i", $user_id);
-                    $activity->execute();
-                    $activity->close();
-                }
+                try {
+                    $activity = $conn->prepare("INSERT INTO user_activity (user_id, activity_type, description) VALUES (?, 'Registration', 'Account created successfully')");
+                    if ($activity) {
+                        $activity->bind_param("i", $user_id);
+                        $activity->execute();
+                        $activity->close();
+                    }
+                } catch (Throwable $ignored) {}
 
                 $stmt->close();
                 $conn->commit();
@@ -68,45 +76,65 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $check->close();
     }
 }
+
+require_once __DIR__ . '/includes/header.php';
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register - Music Finder</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
 
-    <h1>Create Your Account</h1>
+<div style="max-width: 480px; margin: 40px auto;">
+    <div class="form-card" style="box-shadow: var(--shadow-card), var(--shadow-glow); border-color: var(--border-glow);">
+        <div style="text-align: center; margin-bottom: 24px;">
+            <div class="playlist-icon" style="margin: 0 auto 14px auto; width: 56px; height: 56px; font-size: 26px;">
+                <i class="fa-solid fa-heart"></i>
+            </div>
+            <h1 style="font-size: 1.7rem; margin: 0 0 6px 0; color: #fff;">Join VARP</h1>
+            <p style="color: var(--text-secondary); margin: 0; font-size: 0.92rem;">Create your personalized VARP account</p>
+        </div>
 
-    <?php if (!empty($message)): ?>
-        <p style="color: <?php echo $message_type === 'success' ? 'green' : 'red'; ?>">
-            <?php echo htmlspecialchars($message); ?>
-        </p>
-    <?php endif; ?>
+        <?php if (!empty($message)): ?>
+            <div class="alert-box alert-<?= $message_type ?>">
+                <i class="fa-solid <?= $message_type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation' ?>"></i>
+                <span><?= htmlspecialchars($message) ?></span>
+            </div>
+        <?php endif; ?>
 
-    <form method="POST" action="register.php">
-        <label>Username:</label>
-        <input type="text" name="username" maxlength="50" required value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>">
-        <br><br>
+        <?php if ($message_type === 'success'): ?>
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="login.php" class="btn btn-primary" style="padding: 12px 28px;">
+                    <i class="fa-solid fa-right-to-bracket"></i> Proceed to Login
+                </a>
+            </div>
+        <?php else: ?>
+            <form method="POST" action="register.php">
+                <div class="form-group">
+                    <label for="username"><i class="fa-solid fa-user"></i> Username</label>
+                    <input type="text" id="username" name="username" class="form-control" maxlength="50" required placeholder="Choose a username" value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" autocomplete="username">
+                </div>
 
-        <label>Email:</label>
-        <input type="email" name="email" maxlength="100" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
-        <br><br>
+                <div class="form-group">
+                    <label for="email"><i class="fa-solid fa-envelope"></i> Email Address</label>
+                    <input type="email" id="email" name="email" class="form-control" maxlength="100" required placeholder="you@example.com" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" autocomplete="email">
+                </div>
 
-        <label>Password:</label>
-        <input type="password" name="password" required>
-        <br><br>
+                <div class="form-group">
+                    <label for="password"><i class="fa-solid fa-lock"></i> Password</label>
+                    <input type="password" id="password" name="password" class="form-control" required placeholder="At least 6 characters" autocomplete="new-password">
+                </div>
 
-        <label>Confirm Password:</label>
-        <input type="password" name="confirm_password" required>
-        <br><br>
+                <div class="form-group">
+                    <label for="confirm_password"><i class="fa-solid fa-lock-open"></i> Confirm Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" class="form-control" required placeholder="Re-enter password" autocomplete="new-password">
+                </div>
 
-        <button type="submit">Register</button>
-    </form>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px; padding: 12px;">
+                    <i class="fa-solid fa-user-plus"></i> Create Free Account
+                </button>
+            </form>
+        <?php endif; ?>
 
-    <p>Already have an account? <a href="login.php">Login here</a></p>
-    <p><a href="index.php">Back to Music Finder</a></p>
+        <div style="text-align: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-subtle); font-size: 0.9rem; color: var(--text-secondary);">
+            Already have an account? <a href="login.php" style="font-weight: 700;">Login here</a>
+        </div>
+    </div>
+</div>
 
-</body>
-</html>
+<?php require_once __DIR__ . '/includes/footer.php'; ?>

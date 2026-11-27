@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgBarbie" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2C263F"/>
+      <stop offset="60%" stop-color="#1A1626"/>
+      <stop offset="100%" stop-color="#213722"/>
+    </linearGradient>
+    <radialGradient id="auraBarbie" cx="50%" cy="40%" r="45%">
+      <stop offset="0%" stop-color="#3C3454" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#100E17" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="750" fill="url(#bgBarbie)"/>
+  <circle cx="300" cy="300" r="200" fill="url(#auraBarbie)"/>
+
+  <rect x="24" y="24" width="552" height="702" rx="16" fill="none" stroke="#C0B6DE" stroke-opacity="0.25" stroke-width="2"/>
+  <rect x="34" y="34" width="532" height="682" rx="12" fill="none" stroke="#A3C9A7" stroke-opacity="0.2" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- Character Artwork: Barbie -->
+  <g transform="translate(300, 290)">
+    <circle r="140" fill="#201B2E" stroke="#C0B6DE" stroke-opacity="0.35" stroke-width="2"/>
+    
+    <!-- Signature Ponytail & Bangs (Plum Tint Silhouette) -->
+    <path d="M-30,-70 C-40,-85 -20,-110 20,-105 C60,-100 80,-70 85,-30 C90,10 95,50 120,65 C125,45 110,15 100,-15 C95,-45 75,-85 30,-95 C-5,-100 -25,-85 -30,-70 Z" fill="#D3E7D5" stroke="#A3C9A7" stroke-width="2"/>
+
+    <!-- High Ponytail Crown & Head Silhouette -->
+    <circle cx="0" cy="-45" r="38" fill="#F5F3FA" stroke="#C0B6DE" stroke-width="1.5"/>
+
+    <!-- Iconic Cat-Eye Sunglasses -->
+    <path d="M-32,-48 L-8,-48 L-14,-38 L-30,-38 Z M8,-48 L32,-48 L30,-38 L14,-38 Z" fill="#2C263F" stroke="#A3C9A7" stroke-width="2"/>
+    <line x1="-8" y1="-45" x2="8" y2="-45" stroke="#A3C9A7" stroke-width="2"/>
+
+    <!-- Graceful Neck & Heart Pendant -->
+    <rect x="-8" y="-8" width="16" height="30" fill="#F5F3FA"/>
+    <path d="M0,28 L-6,22 A4,4 0 0,1 0,18 A4,4 0 0,1 6,22 Z" fill="#A3C9A7"/>
+
+    <!-- Radiant Dress Collar / Bustier -->
+    <path d="M-60,110 C-60,50 -25,40 0,40 C25,40 60,50 60,110 Z" fill="#2D4A2F" stroke="#A3C9A7" stroke-width="2.5"/>
+    <path d="M-30,45 C-15,65 15,65 30,45" fill="none" stroke="#EFF6F0" stroke-width="2"/>
+  </g>
+
+  <!-- Typography Card Footer -->
+  <text x="300" y="525" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-size="32" font-weight="700" fill="#F5F3FA" letter-spacing="1">
+    Barbie
+  </text>
+  
+  <text x="300" y="560" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="14" font-weight="600" fill="#A3C9A7" letter-spacing="2">
+    BARBIE (2023)
+  </text>
+
+  <rect x="180" y="600" width="240" height="34" rx="17" fill="#213722" stroke="#A3C9A7" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="300" y="622" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="12" font-weight="700" fill="#EFF6F0" letter-spacing="1">
+    POP SOUNDTRACK MUSE
+  </text>
+</svg>

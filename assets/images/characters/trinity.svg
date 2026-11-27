@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgTrinity" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#213722"/>
+      <stop offset="60%" stop-color="#1A1626"/>
+      <stop offset="100%" stop-color="#2C263F"/>
+    </linearGradient>
+    <radialGradient id="auraTrinity" cx="50%" cy="40%" r="45%">
+      <stop offset="0%" stop-color="#2D4A2F" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#100E17" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="750" fill="url(#bgTrinity)"/>
+  <circle cx="300" cy="300" r="200" fill="url(#auraTrinity)"/>
+
+  <rect x="24" y="24" width="552" height="702" rx="16" fill="none" stroke="#A3C9A7" stroke-opacity="0.25" stroke-width="2"/>
+  <rect x="34" y="34" width="532" height="682" rx="12" fill="none" stroke="#C0B6DE" stroke-opacity="0.2" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- Character Artwork: Trinity -->
+  <g transform="translate(300, 290)">
+    <circle r="140" fill="#201B2E" stroke="#A3C9A7" stroke-opacity="0.35" stroke-width="2"/>
+    
+    <!-- Slicked-Back Cyberpunk Bob (Deep Obsidian Plum) -->
+    <path d="M-35,-85 C-20,-100 20,-100 35,-85 C42,-65 38,-40 38,-10 C28,-25 10,-35 -5,-35 C-20,-35 -28,-25 -38,-10 C-38,-40 -42,-65 -35,-85 Z" fill="#171420" stroke="#C0B6DE" stroke-width="2"/>
+
+    <!-- Head & Cybernetic Oval Profile -->
+    <circle cx="0" cy="-35" r="35" fill="#F5F3FA" stroke="#A3C9A7" stroke-width="1.5"/>
+
+    <!-- Signature Frameless Matrix Sunglasses -->
+    <path d="M-30,-40 L-6,-40 L-10,-30 L-26,-30 Z M6,-40 L30,-40 L26,-30 L10,-30 Z" fill="#171420" stroke="#A3C9A7" stroke-width="2"/>
+    <line x1="-6" y1="-37" x2="6" y2="-37" stroke="#A3C9A7" stroke-width="2"/>
+
+    <!-- High-Collar Leather Cyber Trench Coat -->
+    <path d="M-65,110 C-65,55 -35,30 0,30 C35,30 65,55 65,110 Z" fill="#1A2C1B" stroke="#A3C9A7" stroke-width="2.5"/>
+    <path d="M-22,30 L0,70 L22,30 Z" fill="#2C263F" stroke="#C0B6DE" stroke-width="1.5"/>
+
+    <!-- Subtle Digital Rain Vertical Glow Lines -->
+    <line x1="-80" y1="-40" x2="-80" y2="40" stroke="#A3C9A7" stroke-opacity="0.4" stroke-width="2" stroke-dasharray="4,6"/>
+    <line x1="80" y1="-20" x2="80" y2="60" stroke="#A3C9A7" stroke-opacity="0.4" stroke-width="2" stroke-dasharray="4,6"/>
+  </g>
+
+  <!-- Typography Card Footer -->
+  <text x="300" y="525" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-size="32" font-weight="700" fill="#F5F3FA" letter-spacing="1">
+    Trinity
+  </text>
+  
+  <text x="300" y="560" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="14" font-weight="600" fill="#A3C9A7" letter-spacing="2">
+    THE MATRIX (1999)
+  </text>
+
+  <rect x="180" y="600" width="240" height="34" rx="17" fill="#213722" stroke="#A3C9A7" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="300" y="622" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="12" font-weight="700" fill="#EFF6F0" letter-spacing="1">
+    ELECTRONIC SOUNDTRACK MUSE
+  </text>
+</svg>

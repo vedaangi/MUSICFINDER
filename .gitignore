@@ -1,9 +1,8 @@
 
 /config/db.php
 /test_db.php
-.DS_Store
-/config/db.php
-/test_db.php
+.env
+.env.local
 .DS_Store
 .vscode/
 .idea/

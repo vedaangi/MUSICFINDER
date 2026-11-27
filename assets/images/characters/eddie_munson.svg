@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgEddie" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#213722"/>
+      <stop offset="60%" stop-color="#1A1626"/>
+      <stop offset="100%" stop-color="#2C263F"/>
+    </linearGradient>
+    <radialGradient id="auraEddie" cx="50%" cy="40%" r="45%">
+      <stop offset="0%" stop-color="#2D4A2F" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#100E17" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="750" fill="url(#bgEddie)"/>
+  <circle cx="300" cy="300" r="200" fill="url(#auraEddie)"/>
+
+  <rect x="24" y="24" width="552" height="702" rx="16" fill="none" stroke="#A3C9A7" stroke-opacity="0.25" stroke-width="2"/>
+  <rect x="34" y="34" width="532" height="682" rx="12" fill="none" stroke="#C0B6DE" stroke-opacity="0.2" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- Character Artwork: Eddie Munson -->
+  <g transform="translate(300, 290)">
+    <circle r="140" fill="#201B2E" stroke="#A3C9A7" stroke-opacity="0.35" stroke-width="2"/>
+    
+    <!-- Signature 80s Rocker Wild Curls (Deep Plum / Forest Curls) -->
+    <path d="M-65,-10 C-85,-40 -70,-90 -40,-105 C-10,-120 40,-115 65,-90 C85,-65 80,-30 85,15 C90,45 75,90 60,110 C50,85 55,40 50,0 C45,-40 -20,-45 -45,0 C-55,30 -50,75 -65,110 C-75,80 -80,25 -65,-10 Z" fill="#2C263F" stroke="#C0B6DE" stroke-width="2"/>
+
+    <!-- Head & Rocker Bandana Silhouette -->
+    <circle cx="0" cy="-35" r="38" fill="#F5F3FA" stroke="#A3C9A7" stroke-width="1.5"/>
+    <path d="M-36,-42 C-20,-50 20,-50 36,-42 L34,-32 C15,-40 -15,-40 -34,-32 Z" fill="#213722" stroke="#A3C9A7" stroke-width="1.5"/>
+
+    <!-- Leather Jacket & Hellfire Denim Vest -->
+    <path d="M-75,110 C-75,50 -35,35 0,35 C35,35 75,50 75,110 Z" fill="#231E33" stroke="#C0B6DE" stroke-width="2"/>
+    <path d="M-50,110 C-50,55 -25,45 0,45 C25,45 50,55 50,110 Z" fill="#2D4A2F" stroke="#A3C9A7" stroke-width="2"/>
+
+    <!-- Rock Horns Hand Sign (Metal Gesture) -->
+    <g transform="translate(45, 65) scale(0.7)">
+      <path d="M-5,10 v-25 a4,4 0 0,1 8,0 v15 M15,10 v-25 a4,4 0 0,1 8,0 v15 M-5,10 h28 v20 h-28 Z" fill="#EFF6F0" stroke="#213722" stroke-width="2"/>
+    </g>
+    <!-- Guitar Neck Silhouette on Back -->
+    <line x1="-60" y1="120" x2="-25" y2="-60" stroke="#EFF6F0" stroke-width="5" stroke-linecap="round"/>
+    <rect x="-32" y="-75" width="14" height="20" rx="3" fill="#A3C9A7"/>
+  </g>
+
+  <!-- Typography Card Footer -->
+  <text x="300" y="525" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-size="32" font-weight="700" fill="#F5F3FA" letter-spacing="1">
+    Eddie Munson
+  </text>
+  
+  <text x="300" y="560" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="14" font-weight="600" fill="#C0B6DE" letter-spacing="2">
+    STRANGER THINGS (SEASON 4)
+  </text>
+
+  <rect x="180" y="600" width="240" height="34" rx="17" fill="#213722" stroke="#A3C9A7" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="300" y="622" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="12" font-weight="700" fill="#EFF6F0" letter-spacing="1">
+    ROCK SOUNDTRACK MUSE
+  </text>
+</svg>

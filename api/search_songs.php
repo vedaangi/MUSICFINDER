@@ -12,13 +12,15 @@ if (!isset($_GET['q']) || trim($_GET['q']) === '') {
 $search = "%" . trim($_GET['q']) . "%";
 
 $sql = "SELECT
-            songs.song_id,
-            songs.song_name,
+            COALESCE(songs.song_id, songs.id) AS song_id,
+            COALESCE(songs.song_name, songs.title) AS song_name,
             songs.album_name,
             songs.album_art,
             songs.preview_url,
-            artists.artist_name,
-            genres.genre_name
+            songs.youtube_url,
+            songs.audio_file,
+            COALESCE(artists.artist_name, songs.artist, 'Unknown Artist') AS artist_name,
+            COALESCE(genres.genre_name, songs.genre, 'Unknown') AS genre_name
 
         FROM songs
 
@@ -29,14 +31,15 @@ $sql = "SELECT
         ON songs.genre_id = genres.genre_id
 
         WHERE songs.song_name LIKE ?
+        OR songs.title LIKE ?
         OR artists.artist_name LIKE ?
+        OR songs.artist LIKE ?
         OR songs.album_name LIKE ?
 
-        ORDER BY songs.song_name";
+        ORDER BY COALESCE(songs.song_name, songs.title) ASC";
 
 $stmt = $conn->prepare($sql);
-
-$stmt->bind_param("sss", $search, $search, $search);
+$stmt->bind_param("sssss", $search, $search, $search, $search, $search);
 
 $stmt->execute();
 

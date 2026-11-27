@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="100%" height="100%">
+  <defs>
+    <linearGradient id="charBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#213722"/>
+      <stop offset="50%" stop-color="#1A1626"/>
+      <stop offset="100%" stop-color="#2C263F"/>
+    </linearGradient>
+    <radialGradient id="haloGrad" cx="50%" cy="45%" r="45%">
+      <stop offset="0%" stop-color="#2C263F" stop-opacity="0.8"/>
+      <stop offset="60%" stop-color="#213722" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#100E17" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="750" fill="url(#charBgGrad)"/>
+  
+  <!-- Borders -->
+  <rect x="25" y="25" width="550" height="700" rx="18" fill="none" stroke="#A3C9A7" stroke-opacity="0.25" stroke-width="2"/>
+  <rect x="35" y="35" width="530" height="680" rx="12" fill="none" stroke="#C0B6DE" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- Halo Glow Behind Silhouette -->
+  <circle cx="300" cy="320" r="180" fill="url(#haloGrad)"/>
+
+  <!-- Character Silhouette Icon -->
+  <g transform="translate(300, 320)">
+    <!-- Aura Ring -->
+    <circle r="120" fill="#201B2E" stroke="#C0B6DE" stroke-opacity="0.3" stroke-width="2"/>
+    
+    <!-- Head -->
+    <circle cx="0" cy="-35" r="42" fill="#2C263F" stroke="#A3C9A7" stroke-width="2.5"/>
+    
+    <!-- Headphones / Crown Halo -->
+    <path d="M-48,-35 C-48,-70 48,-70 48,-35" fill="none" stroke="#EFF6F0" stroke-width="5" stroke-linecap="round"/>
+    <rect x="-56" y="-45" width="12" height="25" rx="5" fill="#A3C9A7"/>
+    <rect x="44" y="-45" width="12" height="25" rx="5" fill="#A3C9A7"/>
+    
+    <!-- Torso / Shoulders -->
+    <path d="M-75,80 C-75,25 -40,15 0,15 C40,15 75,25 75,80 Z" fill="#213722" stroke="#A3C9A7" stroke-width="2"/>
+    
+    <!-- Musical Note Pendant -->
+    <circle cx="0" cy="40" r="14" fill="#2C263F" stroke="#C0B6DE" stroke-width="1.5"/>
+    <path d="M-3,36 v8 a4,4 0 1,1 -3,-1 l0,-7 l10,-2 v7 a4,4 0 1,1 -3,-1 l0,-6 z" fill="#EFF6F0"/>
+  </g>
+
+  <!-- Typography -->
+  <text x="300" y="525" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-size="28" font-weight="700" fill="#F5F3FA" letter-spacing="1">
+    FICTIONAL MUSE
+  </text>
+  
+  <text x="300" y="560" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="14" font-weight="600" fill="#A3C9A7" letter-spacing="1.5">
+    SOUNDTRACK TWIN ARCHETYPE
+  </text>
+
+  <rect x="170" y="600" width="260" height="34" rx="17" fill="#2C263F" fill-opacity="0.95" stroke="#C0B6DE" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="300" y="622" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="12" font-weight="700" fill="#F5F3FA" letter-spacing="0.5">
+    Character Portrait Unavailable
+  </text>
+</svg>

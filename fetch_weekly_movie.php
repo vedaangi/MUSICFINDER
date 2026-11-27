@@ -8,12 +8,14 @@ function fetchWeeklyMovie(mysqli $conn, int $genre_id, ?string $date = null): ?a
 
     try {
         $stmt = $conn->prepare(
-            "SELECT weekly_id, genre_id, movie_name, movie_description, week_start, week_end
-             FROM weekly_movies
-             WHERE genre_id = ?
-               AND week_start <= ?
-               AND week_end >= ?
-             ORDER BY week_start DESC, weekly_id ASC
+            "SELECT wm.weekly_id, wm.genre_id, g.genre_name, wm.movie_name, wm.movie_year,
+                    wm.movie_description, wm.movie_poster_url, wm.movie_music_fit, wm.week_start, wm.week_end
+             FROM weekly_movies wm
+             LEFT JOIN genres g ON wm.genre_id = g.genre_id
+             WHERE wm.genre_id = ?
+               AND wm.week_start <= ?
+               AND wm.week_end >= ?
+             ORDER BY wm.week_start DESC, wm.weekly_id ASC
              LIMIT 1"
         );
         if (!$stmt) {
@@ -32,6 +34,11 @@ function fetchWeeklyMovie(mysqli $conn, int $genre_id, ?string $date = null): ?a
 
         $row['weekly_id'] = (int)$row['weekly_id'];
         $row['genre_id'] = (int)$row['genre_id'];
+        $row['movie_year'] = isset($row['movie_year']) ? (int)$row['movie_year'] : 2023;
+        $row['movie_poster_url'] = !empty($row['movie_poster_url']) ? $row['movie_poster_url'] : 'assets/images/placeholder_movie.svg';
+        if (empty($row['movie_music_fit'])) {
+            $row['movie_music_fit'] = "This film's cinematic soundtrack resonates closely with the themes, acoustic texture, and rhythm of your most-listened music.";
+        }
 
         return $row;
     } catch (Throwable $e) {

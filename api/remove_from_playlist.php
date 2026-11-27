@@ -30,8 +30,8 @@ if ($check_owner->num_rows === 0) {
 }
 $check_owner->close();
 
-$stmt = $conn->prepare("DELETE FROM playlist_songs WHERE playlist_id = ? AND song_id = ?");
-$stmt->bind_param("ii", $playlist_id, $song_id);
+$stmt = $conn->prepare("DELETE FROM playlist_songs WHERE playlist_id = ? AND (song_id = ? OR song_id = (SELECT id FROM songs WHERE song_id = ? LIMIT 1) OR song_id = (SELECT song_id FROM songs WHERE id = ? LIMIT 1))");
+$stmt->bind_param("iiii", $playlist_id, $song_id, $song_id, $song_id);
 
 if ($stmt->execute()) {
     if ($stmt->affected_rows > 0) {

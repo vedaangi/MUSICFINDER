@@ -16,20 +16,20 @@ if ($song_id <= 0) {
     exit;
 }
 
-$check_song = $conn->prepare("SELECT song_id FROM songs WHERE song_id = ?");
-$check_song->bind_param("i", $song_id);
+$check_song = $conn->prepare("SELECT id, song_id FROM songs WHERE song_id = ? OR id = ? LIMIT 1");
+$check_song->bind_param("ii", $song_id, $song_id);
 $check_song->execute();
-$check_song->store_result();
-
-if ($check_song->num_rows === 0) {
-    echo json_encode(['status' => 'error', 'message' => 'Song not found']);
-    $check_song->close();
-    exit;
-}
+$song_res = $check_song->get_result()->fetch_assoc();
 $check_song->close();
 
+if (!$song_res) {
+    echo json_encode(['status' => 'error', 'message' => 'Song not found']);
+    exit;
+}
+$canonical_song_id = (int)($song_res['song_id'] ?: $song_res['id']);
+
 $stmt = $conn->prepare("INSERT INTO listening_history (user_id, song_id, listened_at) VALUES (?, ?, NOW())");
-$stmt->bind_param("ii", $user_id, $song_id);
+$stmt->bind_param("ii", $user_id, $canonical_song_id);
 
 if ($stmt->execute()) {
     echo json_encode(['status' => 'success', 'message' => 'Listening history recorded']);

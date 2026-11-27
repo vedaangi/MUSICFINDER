@@ -13,14 +13,15 @@ if (empty($artist_id) || !is_numeric($artist_id)) {
 }
 
 $sql = "SELECT
-            songs.song_id,
-            songs.song_name,
+            COALESCE(songs.song_id, songs.id) AS song_id,
+            COALESCE(songs.song_name, songs.title) AS song_name,
             songs.album_name,
             songs.album_art,
             songs.preview_url,
             songs.youtube_url,
-            artists.artist_name,
-            genres.genre_name
+            songs.audio_file,
+            COALESCE(artists.artist_name, songs.artist, 'Unknown Artist') AS artist_name,
+            COALESCE(genres.genre_name, songs.genre, 'Unknown') AS genre_name
 
         FROM songs
 
@@ -30,12 +31,12 @@ $sql = "SELECT
         LEFT JOIN genres
         ON songs.genre_id = genres.genre_id
 
-        WHERE songs.artist_id = ?
+        WHERE songs.artist_id = ? OR songs.artist = (SELECT artist_name FROM artists WHERE artist_id = ? LIMIT 1)
 
-        ORDER BY songs.song_name";
+        ORDER BY COALESCE(songs.song_name, songs.title) ASC";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $artist_id);
+$stmt->bind_param("ii", $artist_id, $artist_id);
 $stmt->execute();
 
 $result = $stmt->get_result();

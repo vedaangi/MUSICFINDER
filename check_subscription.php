@@ -5,41 +5,47 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once __DIR__ . '/config/db.php';
 
-function requireLogin(bool $jsonResponse = false): int
-{
-    if (!isset($_SESSION['user_id']) || (int)$_SESSION['user_id'] <= 0) {
-        if ($jsonResponse) {
-            http_response_code(401);
-            header('Content-Type: application/json');
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'Authentication required.'
-            ]);
+if (!function_exists('requireLogin')) {
+    function requireLogin(bool $jsonResponse = false): int
+    {
+        if (!isset($_SESSION['user_id']) || (int)$_SESSION['user_id'] <= 0) {
+            if ($jsonResponse) {
+                http_response_code(401);
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Authentication required.'
+                ]);
+                exit;
+            }
+            header('Location: login.php');
             exit;
         }
-        header('Location: login.php');
-        exit;
-    }
 
-    return (int)$_SESSION['user_id'];
+        return (int)$_SESSION['user_id'];
+    }
 }
 
-function getCsrfToken(): string
-{
-    if (empty($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-    }
+if (!function_exists('getCsrfToken')) {
+    function getCsrfToken(): string
+    {
+        if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
 
-    return $_SESSION['csrf_token'];
+        return $_SESSION['csrf_token'];
+    }
 }
 
-function verifyCsrfToken(?string $token): bool
-{
-    if (empty($_SESSION['csrf_token']) || !is_string($token)) {
-        return false;
-    }
+if (!function_exists('verifyCsrfToken')) {
+    function verifyCsrfToken(?string $token): bool
+    {
+        if (empty($_SESSION['csrf_token']) || !is_string($token)) {
+            return false;
+        }
 
-    return hash_equals($_SESSION['csrf_token'], $token);
+        return hash_equals($_SESSION['csrf_token'], $token);
+    }
 }
 
 function getUserSubscription(mysqli $conn, int $user_id): ?array
@@ -104,9 +110,9 @@ function requirePremiumSubscription(mysqli $conn, bool $jsonResponse = false): a
 
     if ($subscription === null || $subscription['is_active'] !== true) {
         if ($subscription !== null && $subscription['status'] === 'expired') {
-            $notice = 'Your Music Finder Premium subscription expired on ' . $subscription['end_date'] . '. Renew to continue accessing premium features.';
+            $notice = 'Your VARP Premium subscription expired on ' . $subscription['end_date'] . '. Renew to continue accessing premium features.';
         } else {
-            $notice = 'An active Music Finder Premium subscription is required to access this feature.';
+            $notice = 'An active VARP Premium subscription is required to access this feature.';
         }
 
         if ($jsonResponse) {

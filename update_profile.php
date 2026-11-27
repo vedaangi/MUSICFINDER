@@ -1,16 +1,13 @@
 <?php
-session_start();
-require_once 'config/db.php';
+require_once __DIR__ . '/includes/session_helper.php';
+requireLogin();
 
-if (!isset($_SESSION["user_id"])) {
-    header("Location: login.php");
-    exit;
-}
-
-$user_id = (int)$_SESSION["user_id"];
+require_once __DIR__ . '/config/db.php';
+$user_id = getCurrentUserId();
 $message = "";
+$message_type = "";
 
-$stmt = $conn->prepare("SELECT username, email FROM users WHERE id = ?");
+$stmt = $conn->prepare("SELECT username, email FROM users WHERE id = ? LIMIT 1");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -18,9 +15,7 @@ $user = $result->fetch_assoc();
 $stmt->close();
 
 if (!$user) {
-    session_unset();
-    session_destroy();
-    header("Location: login.php");
+    header("Location: logout.php");
     exit;
 }
 
@@ -30,18 +25,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (empty($username) || empty($email)) {
         $message = "All fields are required.";
+        $message_type = "error";
     } elseif (strlen($username) > 50) {
         $message = "Username cannot exceed 50 characters.";
+        $message_type = "error";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 100) {
         $message = "Please enter a valid email address.";
+        $message_type = "error";
     } else {
-        $check = $conn->prepare("SELECT id FROM users WHERE (username = ? OR email = ?) AND id != ?");
+        $check = $conn->prepare("SELECT id FROM users WHERE (username = ? OR email = ?) AND id != ? LIMIT 1");
         $check->bind_param("ssi", $username, $email, $user_id);
         $check->execute();
         $check_result = $check->get_result();
 
         if ($check_result->num_rows > 0) {
-            $message = "Username or email is already taken.";
+            $message = "Username or email is already taken by another account.";
+            $message_type = "error";
         } else {
             $conn->begin_transaction();
 
@@ -50,12 +49,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $update->bind_param("ssi", $username, $email, $user_id);
                 $update->execute();
 
-                $activity = @$conn->prepare("INSERT INTO user_activity (user_id, activity_type, description) VALUES (?, 'Profile Update', 'Username or email updated')");
-                if ($activity) {
-                    $activity->bind_param("i", $user_id);
-                    $activity->execute();
-                    $activity->close();
-                }
+                try {
+                    $activity = $conn->prepare("INSERT INTO user_activity (user_id, activity_type, description) VALUES (?, 'Profile Update', 'Username or email updated')");
+                    if ($activity) {
+                        $activity->bind_param("i", $user_id);
+                        $activity->execute();
+                        $activity->close();
+                    }
+                } catch (Throwable $e) {}
 
                 $update->close();
                 $conn->commit();
@@ -66,45 +67,60 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $user["username"] = $username;
                 $user["email"] = $email;
 
-                $message = "Profile updated successfully.";
+                $message = "Your profile has been updated successfully.";
+                $message_type = "success";
             } catch (Exception $e) {
                 $conn->rollback();
                 $message = "Unable to update profile. Please try again.";
+                $message_type = "error";
             }
         }
 
         $check->close();
     }
 }
+
+require_once __DIR__ . '/includes/header.php';
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Update Profile - Music Finder</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
 
-    <h1>Update Profile</h1>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Edit Account Profile</h1>
+        <p class="page-subtitle">Update your display username and primary email address.</p>
+    </div>
+    <a href="profile.php" class="btn btn-secondary btn-sm">
+        <i class="fa-solid fa-arrow-left"></i> Back to Profile
+    </a>
+</div>
 
-    <?php if (!empty($message)): ?>
-        <p><?php echo htmlspecialchars($message); ?></p>
-    <?php endif; ?>
+<div style="max-width: 540px; margin: 20px 0;">
+    <div class="form-card">
+        <?php if (!empty($message)): ?>
+            <div class="alert-box alert-<?= $message_type ?>">
+                <i class="fa-solid <?= $message_type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation' ?>"></i>
+                <span><?= htmlspecialchars($message) ?></span>
+            </div>
+        <?php endif; ?>
 
-    <form method="POST" action="update_profile.php">
-        <label>Username:</label>
-        <input type="text" name="username" value="<?php echo htmlspecialchars($user["username"]); ?>" maxlength="50" required>
-        <br><br>
+        <form method="POST" action="update_profile.php">
+            <div class="form-group">
+                <label for="username"><i class="fa-solid fa-user"></i> Username</label>
+                <input type="text" id="username" name="username" class="form-control" value="<?= htmlspecialchars($user["username"]) ?>" maxlength="50" required>
+            </div>
 
-        <label>Email:</label>
-        <input type="email" name="email" value="<?php echo htmlspecialchars($user["email"]); ?>" maxlength="100" required>
-        <br><br>
+            <div class="form-group">
+                <label for="email"><i class="fa-solid fa-envelope"></i> Email Address</label>
+                <input type="email" id="email" name="email" class="form-control" value="<?= htmlspecialchars($user["email"]) ?>" maxlength="100" required>
+            </div>
 
-        <button type="submit">Save Changes</button>
-    </form>
+            <div style="display: flex; gap: 10px; margin-top: 12px;">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-floppy-disk"></i> Save Changes
+                </button>
+                <a href="profile.php" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
 
-    <p><a href="profile.php">Back to Profile</a></p>
-    <p><a href="dashboard.php">Back to Dashboard</a></p>
-
-</body>
-</html>
+<?php require_once __DIR__ . '/includes/footer.php'; ?>

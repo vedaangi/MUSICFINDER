@@ -7,13 +7,16 @@ function fetchTopArtists(mysqli $conn, int $user_id, int $limit = 5): array
 
     try {
         $stmt = $conn->prepare(
-            "SELECT a.artist_id, a.artist_name, a.artist_image, COUNT(lh.id) AS play_count
+            "SELECT COALESCE(a.artist_id, 0) AS artist_id, 
+                    COALESCE(a.artist_name, s.artist, 'Unknown Artist') AS artist_name, 
+                    a.artist_image, 
+                    COUNT(lh.id) AS play_count
              FROM listening_history lh
-             INNER JOIN songs s ON lh.song_id = s.song_id
-             INNER JOIN artists a ON s.artist_id = a.artist_id
+             INNER JOIN songs s ON (lh.song_id = s.song_id OR lh.song_id = s.id)
+             LEFT JOIN artists a ON (s.artist_id = a.artist_id OR s.artist = a.artist_name)
              WHERE lh.user_id = ?
-             GROUP BY a.artist_id, a.artist_name, a.artist_image
-             ORDER BY play_count DESC, a.artist_name ASC
+             GROUP BY COALESCE(a.artist_name, s.artist)
+             ORDER BY play_count DESC, artist_name ASC
              LIMIT ?"
         );
         if (!$stmt) {

@@ -8,12 +8,15 @@ function fetchWeeklyCharacter(mysqli $conn, int $genre_id, ?string $date = null)
 
     try {
         $stmt = $conn->prepare(
-            "SELECT weekly_id, genre_id, character_name, character_description, week_start, week_end
-             FROM weekly_movies
-             WHERE genre_id = ?
-               AND week_start <= ?
-               AND week_end >= ?
-             ORDER BY week_start DESC, weekly_id ASC
+            "SELECT wm.weekly_id, wm.genre_id, g.genre_name, wm.character_name, wm.character_show,
+                    wm.character_description, wm.character_image_url, wm.character_traits,
+                    wm.character_music_match, wm.week_start, wm.week_end
+             FROM weekly_movies wm
+             LEFT JOIN genres g ON wm.genre_id = g.genre_id
+             WHERE wm.genre_id = ?
+               AND wm.week_start <= ?
+               AND wm.week_end >= ?
+             ORDER BY wm.week_start DESC, wm.weekly_id ASC
              LIMIT 1"
         );
         if (!$stmt) {
@@ -32,6 +35,12 @@ function fetchWeeklyCharacter(mysqli $conn, int $genre_id, ?string $date = null)
 
         $row['weekly_id'] = (int)$row['weekly_id'];
         $row['genre_id'] = (int)$row['genre_id'];
+        $row['character_show'] = !empty($row['character_show']) ? $row['character_show'] : 'Featured Cinema / Series';
+        $row['character_image_url'] = !empty($row['character_image_url']) ? $row['character_image_url'] : 'assets/images/placeholder_character.svg';
+        $row['character_traits'] = !empty($row['character_traits']) ? $row['character_traits'] : 'Charismatic, thoughtful, artistic, and resilient.';
+        if (empty($row['character_music_match'])) {
+            $row['character_music_match'] = "This character reflects the heart and energy of your top-streamed songs, sharing a passion for authentic expression.";
+        }
 
         return $row;
     } catch (Throwable $e) {

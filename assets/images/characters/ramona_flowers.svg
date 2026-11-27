@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgRamona" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2C263F"/>
+      <stop offset="60%" stop-color="#1A1626"/>
+      <stop offset="100%" stop-color="#213722"/>
+    </linearGradient>
+    <radialGradient id="auraRamona" cx="50%" cy="40%" r="45%">
+      <stop offset="0%" stop-color="#3C3454" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#100E17" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="600" height="750" fill="url(#bgRamona)"/>
+  <circle cx="300" cy="300" r="200" fill="url(#auraRamona)"/>
+
+  <!-- Editorial Borders -->
+  <rect x="24" y="24" width="552" height="702" rx="16" fill="none" stroke="#C0B6DE" stroke-opacity="0.25" stroke-width="2"/>
+  <rect x="34" y="34" width="532" height="682" rx="12" fill="none" stroke="#A3C9A7" stroke-opacity="0.2" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- Character Artwork: Ramona Flowers -->
+  <g transform="translate(300, 290)">
+    <!-- Aura Ring -->
+    <circle r="140" fill="#201B2E" stroke="#C0B6DE" stroke-opacity="0.35" stroke-width="2"/>
+    
+    <!-- Choppy Bob Haircut (Plum Silhouette) -->
+    <path d="M-65,-10 C-75,-65 -50,-105 0,-105 C50,-105 75,-65 65,-10 C65,30 45,60 30,55 C15,50 35,0 20,-15 C5,-30 -5,-30 -20,-15 C-35,0 -15,50 -30,55 C-45,60 -65,30 -65,-10 Z" fill="#4E436E" stroke="#C0B6DE" stroke-width="2"/>
+
+    <!-- Ramona's Signature Pilot Goggles on Head -->
+    <rect x="-42" y="-90" width="84" height="22" rx="11" fill="#171420" stroke="#A3C9A7" stroke-width="2.5"/>
+    <circle cx="-20" cy="-79" r="9" fill="#213722" stroke="#EFF6F0" stroke-width="2"/>
+    <circle cx="20" cy="-79" r="9" fill="#213722" stroke="#EFF6F0" stroke-width="2"/>
+    <line x1="-11" y1="-79" x2="11" y2="-79" stroke="#EFF6F0" stroke-width="2.5"/>
+
+    <!-- Face Silhouette -->
+    <path d="M-30,-35 C-30,-60 30,-60 30,-35 C30,-5 20,20 0,32 C-20,20 -30,-5 -30,-35 Z" fill="#F5F3FA" stroke="#C0B6DE" stroke-width="1.5"/>
+
+    <!-- Neck & Choker -->
+    <rect x="-10" y="28" width="20" height="24" fill="#E3DFF2"/>
+    <rect x="-10" y="38" width="20" height="4" fill="#213722"/>
+
+    <!-- Hoodie & Subspace Star Messenger Bag -->
+    <path d="M-65,110 C-65,65 -35,50 0,50 C35,50 65,65 65,110 Z" fill="#213722" stroke="#A3C9A7" stroke-width="2.5"/>
+    
+    <!-- Subspace Messenger Bag Strap Across Chest -->
+    <line x1="-55" y1="58" x2="55" y2="105" stroke="#C0B6DE" stroke-width="8" stroke-linecap="round"/>
+    
+    <!-- Subspace Glowing Star Emblem -->
+    <polygon points="0,75 4,87 16,87 6,94 10,106 0,99 -10,106 -6,94 -16,87 -4,87" fill="#EFF6F0" stroke="#2C263F" stroke-width="1.5"/>
+  </g>
+
+  <!-- Typography Card Footer -->
+  <text x="300" y="525" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-size="30" font-weight="700" fill="#F5F3FA" letter-spacing="1">
+    Ramona Flowers
+  </text>
+  
+  <text x="300" y="560" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="14" font-weight="600" fill="#A3C9A7" letter-spacing="2">
+    SCOTT PILGRIM VS. THE WORLD (2010)
+  </text>
+
+  <rect x="180" y="600" width="240" height="34" rx="17" fill="#2C263F" stroke="#C0B6DE" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="300" y="622" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="12" font-weight="700" fill="#D3E7D5" letter-spacing="1">
+    INDIE SOUNDTRACK MUSE
+  </text>
+</svg>

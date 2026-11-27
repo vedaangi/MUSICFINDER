@@ -37,7 +37,7 @@ require_once __DIR__ . '/includes/header.php';
     <div>
         <h1 class="page-title">Welcome back, <?= htmlspecialchars($username) ?>!</h1>
         <p class="page-subtitle">
-            <?= $email !== '' ? 'Signed in as ' . htmlspecialchars($email) . ' — ' : '' ?>Your Music Finder Premium workspace.
+            <?= $email !== '' ? 'Signed in as ' . htmlspecialchars($email) . ' — ' : '' ?>Your VARP Premium workspace.
         </p>
     </div>
     <span class="status-pill status-active">
@@ -90,13 +90,26 @@ require_once __DIR__ . '/includes/header.php';
     <div class="card">
         <div>
             <div class="playlist-card-top">
-                <div class="playlist-icon"><i class="fa-solid fa-film"></i></div>
+                <div class="playlist-icon"><i class="fa-solid fa-user-astronaut"></i></div>
             </div>
-            <h3 class="playlist-title">Weekly Movie &amp; Character</h3>
-            <p class="playlist-desc">Discover this week's curated movie and character pairing for your top genre.</p>
+            <h3 class="playlist-title">Character Match</h3>
+            <p class="playlist-desc">Meet your fictional character twin based on your listening patterns and musical soul.</p>
         </div>
         <div class="playlist-actions">
-            <a href="weekly_feature.php" class="btn btn-primary btn-sm">Open Weekly Feature</a>
+            <a href="character_recommendation.php" class="btn btn-primary btn-sm">View Character</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <div class="playlist-card-top">
+                <div class="playlist-icon"><i class="fa-solid fa-film"></i></div>
+            </div>
+            <h3 class="playlist-title">Weekly Cinema</h3>
+            <p class="playlist-desc">Discover this week's curated film and soundtrack pairing for your top genre.</p>
+        </div>
+        <div class="playlist-actions">
+            <a href="weekly_feature.php" class="btn btn-primary btn-sm">Open Weekly Cinema</a>
         </div>
     </div>
 

@@ -30,9 +30,22 @@ if ($check_owner->num_rows === 0) {
 }
 $check_owner->close();
 
+// Resolve canonical song id
+$songCheck = $conn->prepare("SELECT id FROM songs WHERE id = ? OR song_id = ? LIMIT 1");
+$songCheck->bind_param("ii", $song_id, $song_id);
+$songCheck->execute();
+$songRow = $songCheck->get_result()->fetch_assoc();
+$songCheck->close();
+
+if (!$songRow) {
+    echo json_encode(['status' => 'error', 'message' => 'Song not found in catalog']);
+    exit;
+}
+$canonical_song_id = (int)$songRow['id'];
+
 // check duplicate song in this playlist
 $check_dup = $conn->prepare("SELECT id FROM playlist_songs WHERE playlist_id = ? AND song_id = ?");
-$check_dup->bind_param("ii", $playlist_id, $song_id);
+$check_dup->bind_param("ii", $playlist_id, $canonical_song_id);
 $check_dup->execute();
 $check_dup->store_result();
 
@@ -45,7 +58,7 @@ $check_dup->close();
 
 // insert song
 $stmt = $conn->prepare("INSERT INTO playlist_songs (playlist_id, song_id) VALUES (?, ?)");
-$stmt->bind_param("ii", $playlist_id, $song_id);
+$stmt->bind_param("ii", $playlist_id, $canonical_song_id);
 
 if ($stmt->execute()) {
     echo json_encode(['status' => 'success', 'message' => 'Song added to playlist successfully']);

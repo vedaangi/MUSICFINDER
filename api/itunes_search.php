@@ -1,69 +1,80 @@
-
 <?php
-
 header("Content-Type: application/json");
 
-// Check if search query exists
-if (!isset($_GET['q']) || trim($_GET['q']) == '') {
-
-    echo json_encode([
-        "error" => "Please enter a song or artist name"
-    ]);
-
-    exit;
+// Check if search query exists (support both 'q' and 'term')
+$query = '';
+if (isset($_GET['q']) && trim($_GET['q']) !== '') {
+    $query = trim($_GET['q']);
+} elseif (isset($_GET['term']) && trim($_GET['term']) !== '') {
+    $query = trim($_GET['term']);
 }
 
-// Get search query
-$query = trim($_GET['q']);
-
-// Create iTunes API URL
-$url = "https://itunes.apple.com/search?term="
-       . urlencode($query)
-       . "&entity=song&limit=25";
-
-// Initialize cURL
-$ch = curl_init();
-
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_TIMEOUT, 15);
-
-// Execute API request
-$response = curl_exec($ch);
-
-// Check connection error
-if ($response === false) {
-
-    http_response_code(502);
-
+if ($query === '') {
     echo json_encode([
-        "error" => "Could not connect to iTunes"
+        "resultCount" => 0,
+        "results" => []
     ]);
+    exit;
+}
+$limit = isset($_GET['limit']) ? min(50, max(5, (int)$_GET['limit'])) : 30;
 
+$url = "https://itunes.apple.com/search?term=" . urlencode($query) . "&entity=song&limit=" . $limit;
+
+$response = false;
+
+// 1. Try cURL
+if (function_exists('curl_init')) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'VARP Music/2.0 (compatible)');
+    $response = curl_exec($ch);
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
-    exit;
+    
+    if ($status !== 200) {
+        $response = false;
+    }
 }
 
-$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-curl_close($ch);
-
-// Convert response into PHP array
-$data = json_decode($response, true);
-
-// Check API response
-if ($status != 200 || !is_array($data)) {
-
-    http_response_code(502);
-
-    echo json_encode([
-        "error" => "iTunes API request failed"
+// 2. Fallback to file_get_contents if cURL was unavailable or failed
+if ($response === false && ini_get('allow_url_fopen')) {
+    $ctx = stream_context_create([
+        'http' => [
+            'timeout' => 10,
+            'header' => "User-Agent: VARP Music/2.0\r\n"
+        ],
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false
+        ]
     ]);
+    $response = @file_get_contents($url, false, $ctx);
+}
 
+if ($response === false) {
+    http_response_code(502);
+    echo json_encode([
+        "error" => "Could not reach remote music catalog. Please check your internet connection.",
+        "resultCount" => 0,
+        "results" => []
+    ]);
     exit;
 }
 
-// Return song results
-echo json_encode($data);
+$data = json_decode($response, true);
+if (!is_array($data)) {
+    http_response_code(502);
+    echo json_encode([
+        "error" => "Remote music provider returned invalid data.",
+        "resultCount" => 0,
+        "results" => []
+    ]);
+    exit;
+}
 
+echo json_encode($data);
 ?>

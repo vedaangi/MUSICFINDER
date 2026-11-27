@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2C263F"/>
+      <stop offset="50%" stop-color="#1A1626"/>
+      <stop offset="100%" stop-color="#213722"/>
+    </linearGradient>
+    <radialGradient id="discGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#100E17"/>
+      <stop offset="65%" stop-color="#231E33"/>
+      <stop offset="85%" stop-color="#192B1A"/>
+      <stop offset="100%" stop-color="#2C263F"/>
+    </radialGradient>
+    <linearGradient id="grooveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C0B6DE" stop-opacity="0.15"/>
+      <stop offset="50%" stop-color="#A3C9A7" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#C0B6DE" stop-opacity="0.15"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="600" height="600" fill="url(#bgGrad)"/>
+  
+  <!-- Outer Decorative Border -->
+  <rect x="20" y="20" width="560" height="560" rx="20" fill="none" stroke="#C0B6DE" stroke-opacity="0.18" stroke-width="2"/>
+  <rect x="28" y="28" width="544" height="544" rx="14" fill="none" stroke="#A3C9A7" stroke-opacity="0.12" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- Stylized Vinyl Record Graphic -->
+  <g transform="translate(300, 270)">
+    <!-- Vinyl Disc -->
+    <circle r="170" fill="url(#discGrad)" stroke="#C0B6DE" stroke-opacity="0.25" stroke-width="3"/>
+    
+    <!-- Grooves -->
+    <circle r="150" fill="none" stroke="url(#grooveGrad)" stroke-width="1.5"/>
+    <circle r="135" fill="none" stroke="url(#grooveGrad)" stroke-width="1"/>
+    <circle r="120" fill="none" stroke="url(#grooveGrad)" stroke-width="1.2"/>
+    <circle r="105" fill="none" stroke="url(#grooveGrad)" stroke-width="0.8"/>
+    <circle r="90" fill="none" stroke="url(#grooveGrad)" stroke-width="1"/>
+
+    <!-- Center Label -->
+    <circle r="60" fill="#213722" stroke="#A3C9A7" stroke-width="2"/>
+    <circle r="52" fill="#2C263F" stroke="#C0B6DE" stroke-opacity="0.4" stroke-width="1"/>
+    <circle r="14" fill="#100E17" stroke="#A3C9A7" stroke-width="2"/>
+
+    <!-- Music Notes in Label -->
+    <path d="M-15,-20 v20 a8,8 0 1,1 -5,-2 l0,-18 l22,-5 v19 a8,8 0 1,1 -5,-2 l0,-16 z" fill="#EFF6F0" opacity="0.85"/>
+  </g>
+
+  <!-- Editorial Typography & Brand Label -->
+  <text x="300" y="490" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-size="24" font-weight="700" fill="#F5F3FA" letter-spacing="1">
+    VARP TRACK ARCHIVE
+  </text>
+  
+  <rect x="180" y="510" width="240" height="28" rx="14" fill="#213722" fill-opacity="0.85" stroke="#A3C9A7" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="300" y="529" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="12" font-weight="600" fill="#D3E7D5" letter-spacing="0.5">
+    Artwork Preview Unavailable
+  </text>
+</svg>

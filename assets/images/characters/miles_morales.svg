@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgMiles" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2C263F"/>
+      <stop offset="60%" stop-color="#1A1626"/>
+      <stop offset="100%" stop-color="#213722"/>
+    </linearGradient>
+    <radialGradient id="auraMiles" cx="50%" cy="40%" r="45%">
+      <stop offset="0%" stop-color="#3C3454" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#100E17" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="750" fill="url(#bgMiles)"/>
+  <circle cx="300" cy="300" r="200" fill="url(#auraMiles)"/>
+
+  <rect x="24" y="24" width="552" height="702" rx="16" fill="none" stroke="#C0B6DE" stroke-opacity="0.25" stroke-width="2"/>
+  <rect x="34" y="34" width="532" height="682" rx="12" fill="none" stroke="#A3C9A7" stroke-opacity="0.2" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- Character Artwork: Miles Morales -->
+  <g transform="translate(300, 290)">
+    <circle r="140" fill="#201B2E" stroke="#C0B6DE" stroke-opacity="0.35" stroke-width="2"/>
+    
+    <!-- Signature Hooded Sweatshirt Silhouette -->
+    <path d="M-55,-10 C-65,-60 -35,-95 0,-95 C35,-95 65,-60 55,-10 C50,20 40,40 0,45 C-40,40 -50,20 -55,-10 Z" fill="#2C263F" stroke="#C0B6DE" stroke-width="2.5"/>
+
+    <!-- Head & Spider Mask Underneath -->
+    <ellipse cx="0" cy="-28" rx="30" ry="36" fill="#171420" stroke="#EFF6F0" stroke-width="1.5"/>
+    <!-- Spider Eyes -->
+    <path d="M-20,-34 C-10,-42 -4,-30 -8,-24 C-14,-22 -22,-24 -20,-34 Z" fill="#EFF6F0"/>
+    <path d="M20,-34 C10,-42 4,-30 8,-24 C14,-22 22,-24 20,-34 Z" fill="#EFF6F0"/>
+
+    <!-- Over-Ear Studio Headphones (Miles's Hallmark) -->
+    <path d="M-42,-30 C-42,-75 42,-75 42,-30" fill="none" stroke="#A3C9A7" stroke-width="6" stroke-linecap="round"/>
+    <rect x="-48" y="-40" width="12" height="26" rx="6" fill="#213722" stroke="#EFF6F0" stroke-width="1.5"/>
+    <rect x="36" y="-40" width="12" height="26" rx="6" fill="#213722" stroke="#EFF6F0" stroke-width="1.5"/>
+
+    <!-- Jacket Collar & Hoodie Drawstrings -->
+    <path d="M-70,110 C-70,55 -35,35 0,35 C35,35 70,55 70,110 Z" fill="#213722" stroke="#A3C9A7" stroke-width="2.5"/>
+    <line x1="-12" y1="45" x2="-12" y2="85" stroke="#EFF6F0" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="12" y1="45" x2="12" y2="85" stroke="#EFF6F0" stroke-width="2.5" stroke-linecap="round"/>
+    
+    <!-- Spray Paint Drips (Graffiti Motif) -->
+    <path d="M-30,90 v15 M0,95 v20 M30,88 v12" stroke="#C0B6DE" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Typography Card Footer -->
+  <text x="300" y="525" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-size="32" font-weight="700" fill="#F5F3FA" letter-spacing="1">
+    Miles Morales
+  </text>
+  
+  <text x="300" y="560" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="14" font-weight="600" fill="#A3C9A7" letter-spacing="2">
+    SPIDER-MAN: INTO THE SPIDER-VERSE (2018)
+  </text>
+
+  <rect x="180" y="600" width="240" height="34" rx="17" fill="#2C263F" stroke="#C0B6DE" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="300" y="622" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="12" font-weight="700" fill="#EFF6F0" letter-spacing="1">
+    HIP-HOP SOUNDTRACK MUSE
+  </text>
+</svg>

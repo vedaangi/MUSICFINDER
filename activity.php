@@ -1,13 +1,9 @@
 <?php
-session_start();
-require_once 'config/db.php';
+require_once __DIR__ . '/includes/session_helper.php';
+requireLogin();
 
-if (!isset($_SESSION["user_id"])) {
-    header("Location: login.php");
-    exit;
-}
-
-$user_id = (int)$_SESSION["user_id"];
+require_once __DIR__ . '/config/db.php';
+$user_id = getCurrentUserId();
 
 $stmt = $conn->prepare("SELECT activity_type, description, created_at FROM user_activity WHERE user_id = ? ORDER BY created_at DESC LIMIT 50");
 $result = null;
@@ -16,40 +12,55 @@ if ($stmt) {
     $stmt->execute();
     $result = $stmt->get_result();
 }
+
+require_once __DIR__ . '/includes/header.php';
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Account Activity - Music Finder</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
 
-    <h1>My Account Activity</h1>
-    <p>Here you can view your recent account activities.</p>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">My Account Activity</h1>
+        <p class="page-subtitle">A transparent timeline of your logins, updates, and account actions.</p>
+    </div>
+    <a href="profile.php" class="btn btn-secondary btn-sm">
+        <i class="fa-solid fa-arrow-left"></i> Back to Profile
+    </a>
+</div>
 
-    <?php if ($result && $result->num_rows > 0): ?>
-        <table border="1" cellpadding="10" cellspacing="0" style="margin: 0 auto; background: white;">
-            <tr>
-                <th>Activity</th>
-                <th>Description</th>
-                <th>Date and Time</th>
-            </tr>
-            <?php while ($activity = $result->fetch_assoc()): ?>
+<?php if ($result && $result->num_rows > 0): ?>
+    <div class="table-wrap">
+        <table class="data-table">
+            <thead>
                 <tr>
-                    <td><?php echo htmlspecialchars($activity["activity_type"]); ?></td>
-                    <td><?php echo htmlspecialchars($activity["description"] ?? ""); ?></td>
-                    <td><?php echo htmlspecialchars($activity["created_at"]); ?></td>
+                    <th>Activity</th>
+                    <th>Details</th>
+                    <th>Date &amp; Time</th>
                 </tr>
-            <?php endwhile; ?>
+            </thead>
+            <tbody>
+                <?php while ($activity = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td>
+                            <span class="status-pill status-active" style="background: rgba(168, 85, 247, 0.2); border-color: rgba(168, 85, 247, 0.4); color: var(--text-primary);">
+                                <?= htmlspecialchars($activity["activity_type"]) ?>
+                            </span>
+                        </td>
+                        <td style="color: var(--text-primary); font-size: 0.92rem;"><?= htmlspecialchars($activity["description"] ?? "") ?></td>
+                        <td style="color: var(--text-secondary); font-size: 0.85rem;"><?= htmlspecialchars($activity["created_at"]) ?></td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
         </table>
-    <?php else: ?>
-        <p>No account activity found yet.</p>
-    <?php endif; ?>
+    </div>
+<?php else: ?>
+    <div class="empty-state">
+        <i class="fa-solid fa-wave-square"></i>
+        <h3>No Account Activity Recorded Yet</h3>
+        <p>Your future logins, subscription changes, and profile updates will be logged here.</p>
+        <a href="dashboard.php" class="btn btn-primary">Back to Dashboard</a>
+    </div>
+<?php endif; ?>
 
-    <?php if ($stmt) $stmt->close(); ?>
-
-    <p><a href="dashboard.php">Back to Dashboard</a></p>
-
-</body>
-</html>
+<?php
+if ($stmt) $stmt->close();
+require_once __DIR__ . '/includes/footer.php';
+?>

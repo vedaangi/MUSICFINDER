@@ -7,12 +7,12 @@ require_once __DIR__ . '/../includes/session_helper.php';
 $user_id = getCurrentUserId();
 
 // 1. Identify top genre from listening history
-$genre_sql = "SELECT g.genre_name, COUNT(lh.id) AS play_count
+$genre_sql = "SELECT COALESCE(g.genre_name, s.genre) as genre_name, COUNT(lh.id) AS play_count
               FROM listening_history lh
-              JOIN songs s ON lh.song_id = s.song_id
-              JOIN genres g ON s.genre_id = g.genre_id
+              JOIN songs s ON (lh.song_id = s.song_id OR lh.song_id = s.id)
+              LEFT JOIN genres g ON s.genre_id = g.genre_id
               WHERE lh.user_id = ?
-              GROUP BY g.genre_id, g.genre_name
+              GROUP BY COALESCE(g.genre_name, s.genre)
               ORDER BY play_count DESC
               LIMIT 1";
 
